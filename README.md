@@ -1,3 +1,3 @@
-# qr_code
+# inCode
 
-A new Flutter project.
+A new Flutter project about qr code.
