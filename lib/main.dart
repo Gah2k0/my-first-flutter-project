@@ -43,6 +43,11 @@ class MyAppState extends ChangeNotifier {
     }
     notifyListeners();
   }
+
+  void deleteFavorite(pair) {
+    favorites.remove(pair);
+    notifyListeners();
+  }
 }
 
 // ...
@@ -111,7 +116,6 @@ class _MyHomePageState extends State<MyHomePage> {
 }
 
 class FavoritesPage extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     var appState = context.watch<MyAppState>();
@@ -134,6 +138,11 @@ class FavoritesPage extends StatelessWidget {
           ListTile(
             leading: Icon(Icons.favorite),
             title: Text(pair.asLowerCase),
+            trailing: ElevatedButton.icon(
+              onPressed: () { appState.deleteFavorite(pair); },
+              icon: Icon(Icons.delete),
+              label: Text('Delete')
+            ),
           ),
       ],
     );
@@ -205,14 +214,17 @@ class BigCard extends StatelessWidget {
     return Card(
       color: theme.colorScheme.primary,
       elevation: 5,
-      child: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Text(
-          pair.asPascalCase, 
-          style: style,
-          semanticsLabel: "${pair.first} ${pair.second}",
-          ),
-      ),
+      child: AnimatedSize(
+        duration: const Duration(milliseconds: 500),
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Text(
+            pair.asPascalCase, 
+            style: style,
+            semanticsLabel: "${pair.first} ${pair.second}",
+            ),
+        ),
+      )
     );
   }
 }
